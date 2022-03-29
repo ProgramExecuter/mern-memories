@@ -1,0 +1,11 @@
+# node modules ignored
+node_modules
+
+# package list ignored
+package-lock.json
+
+# VSCODE configs
+.vscode
+
+# build
+build
