@@ -4,6 +4,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
+// Import Routes
+import postRoutes from "./routes/posts.js";
+
 const app = express();
 
 // .env Config
@@ -16,14 +19,21 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // Cross-Origin request handling
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Welcome to server");
-});
+// Link Routes
+app.use("/posts", postRoutes);
 
-///
-// Server Listening
-///
+// PORT
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() =>
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    })
+  )
+  .catch((error) => console.log(error.message));
